@@ -1,0 +1,13 @@
+2025-05-20 20:10:23,204 - INFO - Running job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:10:23 WAT)" (scheduled at 2025-05-20 20:10:23.199149+01:00)
+2025-05-20 20:10:23,216 - INFO - Job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:15:23 WAT)" executed successfully
+2025-05-20 20:15:23,200 - INFO - Running job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:20:23 WAT)" (scheduled at 2025-05-20 20:15:23.199149+01:00)
+2025-05-20 20:15:23,202 - INFO - Job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:20:23 WAT)" executed successfully
+2025-05-20 20:20:23,201 - INFO - Running job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:25:23 WAT)" (scheduled at 2025-05-20 20:20:23.199149+01:00)
+2025-05-20 20:20:23,203 - INFO - Job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:25:23 WAT)" executed successfully
+2025-05-20 20:25:23,201 - INFO - Running job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:30:23 WAT)" (scheduled at 2025-05-20 20:25:23.199149+01:00)
+2025-05-20 20:25:23,204 - INFO - Job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:30:23 WAT)" executed successfully
+2025-05-20 20:30:23,199 - INFO - Running job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:35:23 WAT)" (scheduled at 2025-05-20 20:30:23.199149+01:00)
+2025-05-20 20:30:23,203 - INFO - Job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:35:23 WAT)" executed successfully
+2025-05-20 20:35:23,201 - INFO - Running job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:40:23 WAT)" (scheduled at 2025-05-20 20:35:23.199149+01:00)
+2025-05-20 20:35:23,202 - INFO - Job "monitor_bots (trigger: interval[0:05:00], next run at: 2025-05-20 20:40:23 WAT)" executed successfully
+2025-05-20 20:38:06,048 - INFO - Scheduler has been shut down

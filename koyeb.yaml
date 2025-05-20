@@ -1,0 +1,12 @@
+name: 3comma-bot
+builder: python
+
+run:
+  cmd: uvicorn app.main:app --host 0.0.0.0 --port 8080
+
+envs:
+  - name: PORT
+    value: "8080"
+
+regions:
+  - fra
