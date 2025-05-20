@@ -7,6 +7,7 @@ from .db import get_db
 import hmac
 import hashlib
 import requests
+import time
 
 router = APIRouter()
 
@@ -15,30 +16,36 @@ async def authenticate(user: UserAuth, db: Session = Depends(get_db)):
     if not (user.api_key and user.api_secret):
         raise HTTPException(status_code=400, detail="API key and secret required")
 
-    temp_user = User(api_key=user.api_key, api_secret=user.api_secret)
-    
     def test_api_key(api_key: str, api_secret: str):
+       
+       
+
+        endpoint = "/ver1/accounts"
+        timestamp = str(int(time.time()))
+        payload = ""
+
+        signature_string = timestamp + endpoint + payload
         signature = hmac.new(
-            api_secret.encode(),
-            "/public/api/ver1/users".encode(),
+            api_secret.encode('utf-8'),
+            signature_string.encode('utf-8'),
             hashlib.sha256
         ).hexdigest()
 
         headers = {
             "APIKEY": api_key,
-            "Signature": signature
+            "Signature": signature,
+            "Timestamp": timestamp
         }
 
-        url = f"{ThreeCommasAPI.BASE_URL}/ver1/users"
-        response = requests.get(url, headers=headers)
-        return response
+        url = f"https://api.3commas.io/public/api{endpoint}"
+        return requests.get(url, headers=headers)
 
     response = test_api_key(user.api_key, user.api_secret)
 
     if response.status_code != 200:
-        raise HTTPException(status_code=401, detail="Invalid API credentials")
+        raise HTTPException(status_code=401, detail="Invalid API credentials or IP restricted")
 
-    # If valid, create user in DB
+    # Save the user in DB
     db_user = User(api_key=user.api_key, api_secret=user.api_secret)
     db.add(db_user)
     db.commit()
