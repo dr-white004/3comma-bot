@@ -4,18 +4,51 @@ from datetime import datetime
 from .models import UserAuth, BotConfig, Strategy, User, StrategyModel, PaperBot
 from .core import ThreeCommasAPI
 from .db import get_db
+import hmac
+import hashlib
+import requests
 
 router = APIRouter()
 
 @router.post("/auth/")
 async def authenticate(user: UserAuth, db: Session = Depends(get_db)):
-    if user.api_key and user.api_secret:
-        response = ThreeCommasAPI.make_request(user_id=0, method="GET", endpoint="/ver1/users", db=db)
+    if not (user.api_key and user.api_secret):
+        raise HTTPException(status_code=400, detail="API key and secret required")
+
+    # Temporarily create a User object without saving, just for signing the test request
+    temp_user = User(api_key=user.api_key, api_secret=user.api_secret)
+    
+    # We'll need a helper function to make a request using just API keys (not by user_id)
+    def test_api_key(api_key: str, api_secret: str):
+        signature = hmac.new(
+            api_secret.encode(),
+            "/public/api/ver1/users".encode(),
+            hashlib.sha256
+        ).hexdigest()
+
+        headers = {
+            "APIKEY": api_key,
+            "Signature": signature
+        }
+
+        url = f"{ThreeCommasAPI.BASE_URL}/ver1/users"
+        response = requests.get(url, headers=headers)
+        return response
+
+    response = test_api_key(user.api_key, user.api_secret)
+
+    if response.status_code != 200:
+        raise HTTPException(status_code=401, detail="Invalid API credentials")
+
+    # If valid, create user in DB
     db_user = User(api_key=user.api_key, api_secret=user.api_secret)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
     return {"user_id": db_user.id}
+
+
 
 @router.post("/create-strategy/")
 async def create_strategy(user_id: int, strategy: Strategy, db: Session = Depends(get_db)):
