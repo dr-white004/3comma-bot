@@ -15,10 +15,8 @@ async def authenticate(user: UserAuth, db: Session = Depends(get_db)):
     if not (user.api_key and user.api_secret):
         raise HTTPException(status_code=400, detail="API key and secret required")
 
-    # Temporarily create a User object without saving, just for signing the test request
     temp_user = User(api_key=user.api_key, api_secret=user.api_secret)
     
-    # We'll need a helper function to make a request using just API keys (not by user_id)
     def test_api_key(api_key: str, api_secret: str):
         signature = hmac.new(
             api_secret.encode(),
