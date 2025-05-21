@@ -4,7 +4,7 @@ import requests
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from .models import User
-from typing import cast  # 👈 import cast
+from typing import cast 
 import json
 
 class ThreeCommasAPI:
